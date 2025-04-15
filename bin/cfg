@@ -12,7 +12,7 @@ CONFIG_ROOT="$HOME/.config/config"
 usage() {
   echo " $ cfg add toolname/action   # create directory for action"
   echo "                             # and edit 'run' script with $EDITOR"
-
+  echo " $ cfg title toolname/action # edit 'title' file with $EDITOR"
 }
 
 add_tool_folder() {
