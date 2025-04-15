@@ -3,7 +3,7 @@
 # DONE: add directory for configuring some tool
 # DONE: add action for specified tool
 # DONE: add detect, title, run scripts for specified action
-# TODO: add ls -T for config actions
+# DONE: add ls
 # TODO: add fzf select then edit for config actions
 # TODO: move script into dotfiles/.../scripts
 
@@ -58,7 +58,15 @@ add_item() {
 
 run_item() {
   ITEM=$1
-  $CONFIG_ROOT/$ITEM/run
+  if [[ "$ITEM" == "" ]]; then
+    SELECTED=$(cfg ls | fzf)
+  else
+    SELECTED=$(cfg ls | fzf -1 -q"$ITEM")
+  fi
+  if [[ "$SELECTED" != "" ]]; then
+    SELECTED=$(echo $SELECTED | sed 's/[ ]*::.*$//')
+    "$CONFIG_ROOT/$SELECTED/run"
+  fi
 }
 
 remove_item() {
