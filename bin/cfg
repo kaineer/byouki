@@ -1,0 +1,76 @@
+#!/usr/bin/bash
+
+# DONE: add directory for configuring some tool
+# DONE: add action for specified tool
+# TODO: add detect, title, run scripts for specified action
+# TODO: add ls -T for config actions
+# TODO: add fzf select then edit for config actions
+# TODO: move script into dotfiles/.../scripts
+
+CONFIG_ROOT="$HOME/.config/config"
+
+usage() {
+  echo " $ cfg add toolname/action   # create directory for action"
+  echo "                             # and edit 'run' script with $EDITOR"
+
+}
+
+add_tool_folder() {
+  NAME=$1
+  # Create folder $CONFIG_ROOT/$NAME
+  #   to keep scripts for some tool config
+  #
+  if [[ "$NAME" != "" ]]; then
+    NAME_DIR="$CONFIG_ROOT/$NAME"
+    if [ ! -d $NAME_DIR ]; then
+      mkdir -p $NAME_DIR
+    fi
+  fi
+}
+
+add_action_folder() {
+  TOOL=$1
+  ACTION=$2
+
+  if [[ "$TOOL" != "" && "$ACTION" != "" ]]; then
+    mkdir -p "$CONFIG_ROOT/$TOOL/$ACTION"
+  else
+    echo " [WARNING] you should specify tool and action"
+  fi
+}
+
+add_item() {
+  CMD=$1
+  case "$1" in
+  "tool")
+    shift
+    add_tool_folder $@
+    ;;
+  "action")
+    shift
+    add_action_folder $@
+    ;;
+  *)
+    add_tool_folder $@
+    ;;
+  esac
+}
+
+_ls_tool_folders() {
+  cd "$CONFIG_ROOT"
+  ls -1A
+  cd - >/dev/null
+}
+
+case "$1" in
+"add")
+  shift
+  add_item $@
+  ;;
+"ls0") # NOTE: remove after debugging
+  _ls_tool_folders
+  ;;
+"h" | "help")
+  usage
+  ;;
+esac
