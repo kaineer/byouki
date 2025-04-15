@@ -6,6 +6,8 @@ $ cfg add git initialize
   : # edit file git/initialize/run
 $ cfg add git/initialize (same as previous)
 
+$ cfg rm tool[/action]
+
 $ cfg title git initialize
 $ cfg title git/initialize
 

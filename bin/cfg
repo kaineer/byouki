@@ -2,58 +2,83 @@
 
 # DONE: add directory for configuring some tool
 # DONE: add action for specified tool
-# TODO: add detect, title, run scripts for specified action
+# DONE: add detect, title, run scripts for specified action
 # TODO: add ls -T for config actions
 # TODO: add fzf select then edit for config actions
 # TODO: move script into dotfiles/.../scripts
 
 CONFIG_ROOT="$HOME/.config/config"
+EDITOR=${EDITOR:-vi}
 
 usage() {
-  echo " $ cfg add toolname/action   # create directory for action"
-  echo "                             # and edit 'run' script with $EDITOR"
-  echo " $ cfg title toolname/action # edit 'title' file with $EDITOR"
+  echo " $ cfg ls                     # list tools"
+  echo " $ cfg add toolname[/action]  # create directory for action"
+  echo "                              # and edit 'run' script with $EDITOR"
+  echo " $ cfg rm toolname/action     # remove action or tool"
+  echo ""
+  echo " $ cfg run toolname/action    # run created script"
+  echo " $ cfg title toolname/action  # edit 'title' file with $EDITOR"
+  echo " $ cfg detect toolname/action # edit detection script"
 }
 
-add_tool_folder() {
-  NAME=$1
-  # Create folder $CONFIG_ROOT/$NAME
-  #   to keep scripts for some tool config
-  #
-  if [[ "$NAME" != "" ]]; then
-    NAME_DIR="$CONFIG_ROOT/$NAME"
-    if [ ! -d $NAME_DIR ]; then
-      mkdir -p $NAME_DIR
-    fi
-  fi
+create_action_and_edit() {
+  DIR="$CONFIG_ROOT/$1"
+  mkdir -p "$DIR"
+  ITEM=$(echo $1 | sed "s/^.*\///")
+  FILE="$DIR/run"
+  touch $FILE
+  chmod 755 $FILE
+  $EDITOR $FILE
 }
 
-add_action_folder() {
-  TOOL=$1
-  ACTION=$2
-
-  if [[ "$TOOL" != "" && "$ACTION" != "" ]]; then
-    mkdir -p "$CONFIG_ROOT/$TOOL/$ACTION"
-  else
-    echo " [WARNING] you should specify tool and action"
-  fi
+create_tool() {
+  mkdir -p "$CONFIG_ROOT/$1"
 }
 
 add_item() {
-  CMD=$1
-  case "$1" in
-  "tool")
-    shift
-    add_tool_folder $@
-    ;;
-  "action")
-    shift
-    add_action_folder $@
-    ;;
-  *)
-    add_tool_folder $@
-    ;;
+  ITEM=$1
+  MAKE_ACTION="false"
+
+  if [[ "$2" != "" ]]; then
+    ITEM="$ITEM/$2"
+    MAKE_ACTION="true"
+  fi
+
+  NSLASHES=$(echo $ITEM | grep "/" | wc -l)
+
+  if [[ "$NSLASHES" == "1" ]]; then
+    MAKE_ACTION="true"
+  fi
+
+  case "$MAKE_ACTION" in
+  "true") create_action_and_edit $ITEM ;;
+  "false") create_tool $ITEM ;;
   esac
+}
+
+run_item() {
+  ITEM=$1
+  $CONFIG_ROOT/$ITEM/run
+}
+
+remove_item() {
+  ITEM=$1
+  rm -rf $CONFIG_ROOT/$ITEM
+}
+
+detect_item() {
+  ITEM=$1
+  FILE="$CONFIG_ROOT/$ITEM/detect"
+  touch $FILE
+  chmod 755 $FILE
+  $EDITOR $FILE
+}
+
+title_item() {
+  ITEM=$1
+  FILE="$CONFIG_ROOT/$ITEM/title"
+  touch $FILE
+  $EDITOR $FILE
 }
 
 _ls_tool_folders() {
@@ -62,15 +87,58 @@ _ls_tool_folders() {
   cd - >/dev/null
 }
 
+_ls_actions_folders() {
+  cd "$CONFIG_ROOT/$1"
+  ls -1A
+  cd - >/dev/null
+}
+
+list_actions() {
+  for FILE in $(_ls_actions_folders $1); do
+    TITLE=""
+    TFILE="$CONFIG_ROOT/$1/$FILE/title"
+    [ -f $TFILE ] && TITLE=$(cat $TFILE | sed '1!d')
+
+    if [[ "$TITLE" == "" ]]; then
+      echo "$1/$FILE"
+    else
+      echo "$1/$FILE :: $TITLE"
+    fi
+  done
+}
+
+list_folders() {
+  for FILE in $(_ls_tool_folders); do
+    list_actions $FILE
+  done
+}
+
 case "$1" in
 "add")
   shift
   add_item $@
   ;;
-"ls0") # NOTE: remove after debugging
-  _ls_tool_folders
+"ls")
+  # _ls_tool_folders
+  list_folders
   ;;
-"h" | "help")
+"run")
+  shift
+  run_item $@
+  ;;
+"rm")
+  shift
+  remove_item $@
+  ;;
+"detect")
+  shift
+  detect_item $@
+  ;;
+"title")
+  shift
+  title_item $@
+  ;;
+"" | "h" | "help")
   usage
   ;;
 esac
