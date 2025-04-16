@@ -11,6 +11,7 @@
    * if some dependency script returns not 0, return this value
    * run 'run' script
    * check script is successful using DETECT
+   * if not detected, ask for retry and run again
 
  * TODO: add logging functions
    * error, warn, info, debug
