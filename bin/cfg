@@ -7,6 +7,7 @@
 # TODO: add fzf select then edit for config actions
 # TODO: move script into dotfiles/.../scripts
 
+BIN0=$(readlink -f $0)
 CONFIG_ROOT="$HOME/.config/config"
 EDITOR=${EDITOR:-vi}
 
@@ -74,8 +75,16 @@ remove_item() {
   rm -rf $CONFIG_ROOT/$ITEM
 }
 
+_ensure_item_dir() {
+  if [[ "$ITEM" != "" ]]; then
+    DIR="$CONFIG_ROOT/$ITEM"
+    [ ! -d $DIR ] && mkdir -pf $DIR
+  fi
+}
+
 detect_item() {
   ITEM=$1
+  _ensure_item_dir
   FILE="$CONFIG_ROOT/$ITEM/detect"
   touch $FILE
   chmod 755 $FILE
@@ -84,6 +93,7 @@ detect_item() {
 
 title_item() {
   ITEM=$1
+  _ensure_item_dir
   FILE="$CONFIG_ROOT/$ITEM/title"
   touch $FILE
   $EDITOR $FILE
@@ -145,6 +155,9 @@ case "$1" in
 "title")
   shift
   title_item $@
+  ;;
+"e0")
+  $EDITOR $BIN0
   ;;
 "" | "h" | "help")
   usage

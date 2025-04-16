@@ -1,13 +1,12 @@
 # Spore config
 
 ```
-$ cfg add git/initialize (same as previous)
+$ cfg add git/initialize
   : # edit file git/initialize/run
 
 $ cfg rm tool[/action]
 
-$ cfg title git initialize
-$ cfg title git/initialize
+$ cfg title tool/action
 
 $ cfg detect git/initialize
   : #!/bin/bash
