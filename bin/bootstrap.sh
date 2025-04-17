@@ -5,8 +5,7 @@ DIR=$(dirname $BIN0)
 DIRR=$(dirname $DIR)
 
 mkdir -p $HOME/bin
-cd $HOME/bin
-ln -s $DIR/cfg $HOME/bin/cfg
-cd -
+[ ! -f $HOME/bin/cfg ] && ln -s $DIR/cfg $HOME/bin/cfg
 
-ln -s $DIRR/spores/ $HOME/.config/config
+[ ! -d $HOME/.config/config ] && \
+  ln -s $DIRR/spores/ $HOME/.config/config
