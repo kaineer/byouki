@@ -122,7 +122,7 @@ list_actions() {
     if [[ "$TITLE" == "" ]]; then
       echo "$1/$FILE"
     else
-      echo "$1/$FILE :: $TITLE"
+      printf "%-20s :: %s\n" "$1/$FILE" "$TITLE"
     fi
   done
 }
@@ -139,7 +139,6 @@ case "$1" in
   add_item $@
   ;;
 "ls")
-  # _ls_tool_folders
   list_folders
   ;;
 "run")
