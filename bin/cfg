@@ -161,6 +161,9 @@ case "$1" in
 "e0")
   $EDITOR $BIN0
   ;;
+"sync")
+  cfg run byouki/sync
+  ;;
 "" | "h" | "help")
   usage
   ;;

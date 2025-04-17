@@ -4,6 +4,7 @@ BIN0=$(readlink -f $0)
 DIR0=$(dirname $BIN0)
 DIR="$DIR0/../../.."
 
+cd $DIR
 git add .
 git ci -m "Sync from $HOSTNAME"
 git pull origin master
