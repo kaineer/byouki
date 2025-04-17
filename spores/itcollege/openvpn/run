@@ -1,0 +1,26 @@
+#!/bin/bash
+
+FILE="tmp/Students_VPN_24-25.ovpn"
+
+if [ -f $FILE ]; then
+  mkdir -p $HOME/tmp
+  wget \
+    https://vpn.students.it-college.ru/files/Students_VPN_24-25.ovpn \
+    -O $HOME/$FILE >/dev/null 2>&1
+
+  if [ -f $HOME/$FILE ]; then
+    echo " [INFO] File $FILE is downloaded successfully"
+  else
+    echo " [ERROR] Could not download file"
+    exit 1
+  fi
+else
+  echo " [INFO] File $FILE is already loaded"
+fi
+
+sudo apt install --yes \
+  network-manager-openvpn \
+  network-manager-openvpn-gnome >/dev/null 2>&1
+
+echo " [INFO] Now, go to network settings"
+echo " [INFO]   and import file $FILE"

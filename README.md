@@ -1,5 +1,10 @@
 # Spore config
 
+## Before using
+ * go to repo root
+ * run ./bin/bootstrap.sh
+
+
 ```
 $ cfg add git/initialize
   : # edit file git/initialize/run

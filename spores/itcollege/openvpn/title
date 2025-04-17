@@ -1,0 +1,5 @@
+Setup vpn connection to it-college
+
+ * Downloads ovpn file from site
+ * Installs packages for network manager
+ * Displays info where to find ovpn file
