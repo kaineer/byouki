@@ -1,3 +1,5 @@
 #!/bin/bash
 
-sudo apt install --yes spice-client-gtk
+sudo apt install --yes \
+  virt-viewer \
+  spice-client-gtk
