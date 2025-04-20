@@ -22,7 +22,7 @@ main() {
   T=$(mktemp)
 
   _echo_env_file >$T
-  e $T
+  nvim $T
   source $T
 
   if [[ "$SITE_NAME" == "" ]]; then
@@ -38,12 +38,15 @@ main() {
   rm -rf $T
 }
 
-_detect() {
-  COUNT=$(ls *.crt >/dev/null 2>&1 | wc -l)
+# TODO: move to ./detect
+#   (after ../action/detect is implemented)
+#
+_detect_crt() {
+  COUNT="$(ls *.crt >/dev/null 2>&1 | wc -l)"
   [[ "$COUNT" != "0" ]]
 }
 
-if _detect; then
+if _detect_crt; then
   main
 else
   echo " [WARN ] Looks like you do not have .crt file"
