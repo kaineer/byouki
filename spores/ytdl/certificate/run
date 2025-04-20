@@ -1,0 +1,51 @@
+#!/bin/bash
+
+BIN0=$(readlink -f $0)
+DIR0=$(dirname $BIN0)
+
+_echo_info() {
+  cat $DIR0/cert.info | sed "s/^/# /"
+}
+
+_echo_env_file() {
+  _echo_info
+  echo ""
+  echo "# In case your certificate file is in current dir"
+  echo "#   and it has name sitename.crt,"
+  echo "#   then you should put \"sitename\" into variable below"
+  echo "SITE_NAME="
+}
+
+main() {
+  T=$(mktemp)
+
+  _echo_env_file >$T
+  e $T
+  source $T
+
+  if [[ "$SITE_NAME" == "" ]]; then
+    echo " [INFO ] You did not fill in SITE_NAME variable"
+    echo " [WARN ] Please try again next time"
+  else
+    DIR="/usr/local/share/ca-certificates/$SITE_NAME"
+    sudo mkdir -p $DIR
+    sudo mv ./$SITE_NAME.crt $DIR
+    sudo update-ca-certificates
+  fi
+
+  rm -rf $T
+}
+
+_detect() {
+  COUNT=$(ls *.crt >/dev/null 2>&1 | wc -l)
+  [[ "$COUNT" != "0" ]]
+}
+
+if _detect; then
+  main
+else
+  echo " [WARN ] Looks like you do not have .crt file"
+  echo " [WARN ] Here's how to get it:"
+  echo ""
+  cat $DIR0/cert.info
+fi
