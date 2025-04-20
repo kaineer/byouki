@@ -3,8 +3,10 @@
 BIN0=$(readlink -f $0)
 DIR0=$(dirname $BIN0)
 
+INFO=$DIR0/cert.info.md
+
 _echo_info() {
-  cat $DIR0/cert.info | sed "s/^/# /"
+  cat $INFO | sed "s/^/# /"
 }
 
 _echo_env_file() {
@@ -47,5 +49,9 @@ else
   echo " [WARN ] Looks like you do not have .crt file"
   echo " [WARN ] Here's how to get it:"
   echo ""
-  cat $DIR0/cert.info
+  if [[ "$(which bat)" != "" ]]; then
+    bat --plain $INFO
+  else
+    cat $INFO
+  fi
 fi
