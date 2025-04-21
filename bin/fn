@@ -1,0 +1,47 @@
+#!/bin/bash
+
+LOG_LEVEL=${LOG_LEVEL:-error}
+
+C0=$(echo ":error:warn:info:debug:" | grep ":${LOG_LEVEL}:" | wc -l)
+if [[ "$C0" == "0" ]]; then
+  error() {
+    echo -n ""
+  }
+else
+  error() {
+    echo " [ERROR]" $@
+  }
+fi
+
+C1=$(echo ":warn:info:debug:" | grep ":${LOG_LEVEL}:" | wc -l)
+if [[ "$C1" == "0" ]]; then
+  warn() {
+    echo -n ""
+  }
+else
+  warn() {
+    echo " [WARN ]" $@
+  }
+fi
+
+C2=$(echo ":info:debug:" | grep ":${LOG_LEVEL}:" | wc -l)
+if [[ "$C2" == "0" ]]; then
+  info() {
+    echo -n ""
+  }
+else
+  info() {
+    echo " [INFO ]" $@
+  }
+fi
+
+C3=$(echo ":debug:" | grep ":${LOG_LEVEL}:" | wc -l)
+if [[ "$C3" == "0" ]]; then
+  debug() {
+    echo -n ""
+  }
+else
+  debug() {
+    echo " [DEBUG]" $@
+  }
+fi

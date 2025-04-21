@@ -5,6 +5,8 @@ DIR0=$(dirname $BIN0)
 
 INFO=$DIR0/cert.info.md
 
+source $DIR0/../../../bin/fn
+
 _echo_info() {
   cat $INFO | sed "s/^/# /"
 }
@@ -26,8 +28,8 @@ main() {
   source $T
 
   if [[ "$SITE_NAME" == "" ]]; then
-    echo " [INFO ] You did not fill in SITE_NAME variable"
-    echo " [WARN ] Please try again next time"
+    info "You did not fill in SITE_NAME variable"
+    warn "Please try again next time"
   else
     DIR="/usr/local/share/ca-certificates/$SITE_NAME"
     sudo mkdir -p $DIR
@@ -42,16 +44,19 @@ main() {
 #   (after ../action/detect is implemented)
 #
 _detect_crt() {
-  COUNT="$(ls *.crt >/dev/null 2>&1 | wc -l)"
+  debug $(pwd)
+  COUNT="$(ls *.crt 2>/dev/null | wc -l)"
+  debug "COUNT=$COUNT"
   [[ "$COUNT" != "0" ]]
 }
 
 if _detect_crt; then
   main
 else
-  echo " [WARN ] Looks like you do not have .crt file"
-  echo " [WARN ] Here's how to get it:"
-  echo ""
+  warn "Looks like you do not have .crt file"
+  warn "Here's how to get it:"
+  warn ""
+
   if [[ "$(which bat)" != "" ]]; then
     bat --plain $INFO
   else

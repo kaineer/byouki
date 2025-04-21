@@ -113,6 +113,10 @@ _ls_actions_folders() {
   cd - >/dev/null
 }
 
+_yes_no() {
+  echo -e "yes\nno" | fzf -dmenu
+}
+
 list_actions() {
   for FILE in $(_ls_actions_folders $1); do
     TITLE=""
@@ -134,7 +138,7 @@ list_folders() {
 }
 
 case "$1" in
-"add")
+"add" | "edit")
   shift
   add_item $@
   ;;
