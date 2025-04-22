@@ -8,6 +8,7 @@
 # TODO: move script into dotfiles/.../scripts
 
 BIN0=$(readlink -f $0)
+DIR0=$(dirname $BIN0)
 CONFIG_ROOT="$HOME/.config/config"
 EDITOR=${EDITOR:-vi}
 
@@ -168,6 +169,6 @@ case "$1" in
   cfg run byouki/sync
   ;;
 "" | "h" | "help")
-  usage
+  cat $DIR0/cfg.d/usage.md
   ;;
 esac
