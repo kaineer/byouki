@@ -1,0 +1,27 @@
+#!/bin/bash
+
+_ensure_item_dir() {
+  debug "ensure_item_dir: " $ITEM
+  if [[ "$ITEM" != "" ]]; then
+    DIR="$CONFIG_ROOT/$ITEM"
+    if [ ! -d $DIR ]; then
+      debug "mkdir -p $DIR"
+      mkdir -p $DIR
+    fi
+  fi
+}
+
+_edit_item_file() {
+  ITEM="$2"
+  FILE="$1"
+
+  _ensure_item_dir
+  ITF=$CONFIG_ROOT/$ITEM/$FILE
+
+  touch $ITF
+  $EDITOR $ITF
+}
+
+debug $1 ":" $2
+
+_edit_item_file $@
