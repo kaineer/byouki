@@ -23,7 +23,7 @@ _run_selected() {
     if _run_detect $SELECTED; then
       info "## ${SELECTED}"
       "$CONFIG_ROOT/$SELECTED/run"
-      info ""
+      info "## /${SELECTED}"
     else
       info "$SELECTED is already installed"
     fi
