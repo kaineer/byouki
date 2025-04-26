@@ -2,14 +2,31 @@
 
 ITEM=$1
 
+_run_detect() {
+  DF="$CONFIG_ROOT/$SELECTED/detect"
+  if [ -f $DF ]; then
+    if source "$DF"; then
+      return 0
+    else
+      return 1
+    fi
+  else
+    return 0
+  fi
+}
+
 _run_selected() {
   SELECTED=$1
 
   if [[ "$SELECTED" != "" ]]; then
     SELECTED=$(echo $SELECTED | sed 's/[ ]*::.*$//')
-    echo "## ${SELECTED}"
-    "$CONFIG_ROOT/$SELECTED/run"
-    echo ""
+    if _run_detect $SELECTED; then
+      info "## ${SELECTED}"
+      "$CONFIG_ROOT/$SELECTED/run"
+      info ""
+    else
+      info "$SELECTED is already installed"
+    fi
   fi
 }
 

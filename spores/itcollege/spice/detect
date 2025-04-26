@@ -1,0 +1,6 @@
+#!/bin/bash
+
+CV=$(dpkg-query -W virt-viewer 2>/dev/null | wc -l)
+CS=$(dpkg-query -W spice-client-gtk 2>/dev/null | wc -l)
+
+[[ "$CS$CV" != "11" ]]
