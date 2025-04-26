@@ -45,21 +45,6 @@ add_item() {
   fi
 }
 
-run_item() {
-  ITEM=$1
-  if [[ "$ITEM" == "" ]]; then
-    SELECTED=$(cfg ls | fzf)
-  else
-    SELECTED=$(cfg ls | fzf -1 -q"$ITEM")
-  fi
-  if [[ "$SELECTED" != "" ]]; then
-    SELECTED=$(echo $SELECTED | sed 's/[ ]*::.*$//')
-    echo "## ${SELECTED}"
-    "$CONFIG_ROOT/$SELECTED/run"
-    echo ""
-  fi
-}
-
 remove_item() {
   ITEM=$1
   rm -rf $CONFIG_ROOT/$ITEM

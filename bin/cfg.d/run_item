@@ -2,15 +2,21 @@
 
 ITEM=$1
 
+_run_selected() {
+  SELECTED=$1
+
+  if [[ "$SELECTED" != "" ]]; then
+    SELECTED=$(echo $SELECTED | sed 's/[ ]*::.*$//')
+    echo "## ${SELECTED}"
+    "$CONFIG_ROOT/$SELECTED/run"
+    echo ""
+  fi
+}
+
 if [[ "$ITEM" == "" ]]; then
   SELECTED=$(cfg ls | fzf)
 else
   SELECTED=$(cfg ls | fzf -1 -q"$ITEM")
 fi
 
-if [[ "$SELECTED" != "" ]]; then
-  SELECTED=$(echo $SELECTED | sed 's/[ ]*::.*$//')
-  echo "## ${SELECTED}"
-  "$CONFIG_ROOT/$SELECTED/run"
-  echo ""
-fi
+_run_selected $SELECTED
