@@ -1,7 +1,7 @@
 ## More configs to god of configs
 
  $ cfg ls                     # list tools
- $ cfg add toolname[/action]  # create directory for action
+ $ cfg add toolname/action    # create directory for action
                               # and edit 'run' script with $EDITOR
  $ cfg rm toolname/action     # remove action or tool
 

@@ -70,7 +70,6 @@ case "$1" in
   ;;
 "run")
   shift
-  # run_item $@
   source $DIRD/run_item $@
   ;;
 "rm")
