@@ -1,0 +1,35 @@
+#!/bin/bash
+
+_ls_tool_folders() {
+  cd "$CONFIG_ROOT"
+  ls -1A
+  cd - >/dev/null
+}
+
+_ls_actions_folders() {
+  cd "$CONFIG_ROOT/$1"
+  ls -1A
+  cd - >/dev/null
+}
+
+list_actions() {
+  for FILE in $(_ls_actions_folders $1); do
+    TITLE=""
+    TFILE="$CONFIG_ROOT/$1/$FILE/title"
+    [ -f $TFILE ] && TITLE=$(cat $TFILE | sed '1!d')
+
+    if [[ "$TITLE" == "" ]]; then
+      echo "$1/$FILE"
+    else
+      printf "%-20s :: %s\n" "$1/$FILE" "$TITLE"
+    fi
+  done
+}
+
+list_folders() {
+  for FILE in $(_ls_tool_folders); do
+    list_actions $FILE
+  done
+}
+
+list_folders

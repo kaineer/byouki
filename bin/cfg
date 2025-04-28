@@ -8,32 +8,19 @@
 # TODO: move script into dotfiles/.../scripts
 
 BIN0=$(readlink -f $0)
+DIR0=$(dirname $BIN0)
 CONFIG_ROOT="$HOME/.config/config"
 EDITOR=${EDITOR:-vi}
+DIRD="${DIR0}/cfg.d"
 
-usage() {
-  echo " $ cfg ls                     # list tools"
-  echo " $ cfg add toolname[/action]  # create directory for action"
-  echo "                              # and edit 'run' script with $EDITOR"
-  echo " $ cfg rm toolname/action     # remove action or tool"
-  echo ""
-  echo " $ cfg run toolname/action    # run created script"
-  echo " $ cfg title toolname/action  # edit 'title' file with $EDITOR"
-  echo " $ cfg detect toolname/action # edit detection script"
-}
+source $DIR0/fn
 
 create_action_and_edit() {
   DIR="$CONFIG_ROOT/$1"
   mkdir -p "$DIR"
-  ITEM=$(echo $1 | sed "s/^.*\///")
   FILE="$DIR/run"
-  touch $FILE
-  chmod 755 $FILE
+  touch $FILE && chmod 755 $FILE
   $EDITOR $FILE
-}
-
-create_tool() {
-  mkdir -p "$CONFIG_ROOT/$1"
 }
 
 add_item() {
@@ -51,24 +38,10 @@ add_item() {
     MAKE_ACTION="true"
   fi
 
-  case "$MAKE_ACTION" in
-  "true") create_action_and_edit $ITEM ;;
-  "false") create_tool $ITEM ;;
-  esac
-}
-
-run_item() {
-  ITEM=$1
-  if [[ "$ITEM" == "" ]]; then
-    SELECTED=$(cfg ls | fzf)
+  if [[ "$MAKE_ACTION" == "false" ]]; then
+    warn "You should specify tool AND action"
   else
-    SELECTED=$(cfg ls | fzf -1 -q"$ITEM")
-  fi
-  if [[ "$SELECTED" != "" ]]; then
-    SELECTED=$(echo $SELECTED | sed 's/[ ]*::.*$//')
-    echo "## ${SELECTED}"
-    "$CONFIG_ROOT/$SELECTED/run"
-    echo ""
+    create_action_and_edit $ITEM
   fi
 }
 
@@ -80,61 +53,11 @@ remove_item() {
 _ensure_item_dir() {
   if [[ "$ITEM" != "" ]]; then
     DIR="$CONFIG_ROOT/$ITEM"
-    [ ! -d $DIR ] && mkdir -pf $DIR
-  fi
-}
-
-detect_item() {
-  ITEM=$1
-  _ensure_item_dir
-  FILE="$CONFIG_ROOT/$ITEM/detect"
-  touch $FILE
-  chmod 755 $FILE
-  $EDITOR $FILE
-}
-
-title_item() {
-  ITEM=$1
-  _ensure_item_dir
-  FILE="$CONFIG_ROOT/$ITEM/title"
-  touch $FILE
-  $EDITOR $FILE
-}
-
-_ls_tool_folders() {
-  cd "$CONFIG_ROOT"
-  ls -1A
-  cd - >/dev/null
-}
-
-_ls_actions_folders() {
-  cd "$CONFIG_ROOT/$1"
-  ls -1A
-  cd - >/dev/null
-}
-
-_yes_no() {
-  echo -e "yes\nno" | fzf -dmenu
-}
-
-list_actions() {
-  for FILE in $(_ls_actions_folders $1); do
-    TITLE=""
-    TFILE="$CONFIG_ROOT/$1/$FILE/title"
-    [ -f $TFILE ] && TITLE=$(cat $TFILE | sed '1!d')
-
-    if [[ "$TITLE" == "" ]]; then
-      echo "$1/$FILE"
-    else
-      printf "%-20s :: %s\n" "$1/$FILE" "$TITLE"
+    if [ ! -d $DIR ]; then
+      debug "mkdir -p $DIR"
+      mkdir -pf $DIR
     fi
-  done
-}
-
-list_folders() {
-  for FILE in $(_ls_tool_folders); do
-    list_actions $FILE
-  done
+  fi
 }
 
 case "$1" in
@@ -143,23 +66,18 @@ case "$1" in
   add_item $@
   ;;
 "ls")
-  list_folders
+  source $DIRD/list_folders
   ;;
 "run")
   shift
-  run_item $@
+  source $DIRD/run_item $@
   ;;
 "rm")
   shift
   remove_item $@
   ;;
-"detect")
-  shift
-  detect_item $@
-  ;;
-"title")
-  shift
-  title_item $@
+"title" | "detect" | "dependencies")
+  source $DIRD/edit_item_file $@
   ;;
 "e0")
   $EDITOR $BIN0
@@ -168,6 +86,6 @@ case "$1" in
   cfg run byouki/sync
   ;;
 "" | "h" | "help")
-  usage
+  cat $DIR0/cfg.d/usage.md
   ;;
 esac
