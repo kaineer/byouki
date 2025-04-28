@@ -1,0 +1,25 @@
+#!/bin/bash
+
+BIN0=$(readlink -f $0)
+DIR0=$(dirname $BIN0)
+INFO=$DIR0/env.tpl
+
+source $DIR0/../../../bin/fn
+
+main() {
+  T=$(mktemp)
+  cat $INFO >$T
+  nvim $T
+  source $T
+
+  if [[ "$PROJECT_NAME" == "" || "$PROJECT_TYPE" == "" ]]; then
+    info "You did not fill in PROJECT_NAME"
+    warn "Please try again next time"
+  else
+    npm create vite@latest $PROJECT_NAME -- --template=$PROJECT_TYPE &&
+      cd $PROJECT_NAME && npm i
+  fi
+  rm -rf $T
+}
+
+main
