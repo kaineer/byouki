@@ -9,18 +9,18 @@ if [ -f $FILE ]; then
     -O $HOME/$FILE >/dev/null 2>&1
 
   if [ -f $HOME/$FILE ]; then
-    echo " [INFO] File $FILE is downloaded successfully"
+    info "File $FILE is downloaded successfully"
   else
-    echo " [ERROR] Could not download file"
+    error "Could not download file"
     exit 1
   fi
 else
-  echo " [INFO] File $FILE is already loaded"
+  info "File $FILE is already loaded"
 fi
 
 sudo apt install --yes \
   network-manager-openvpn \
   network-manager-openvpn-gnome >/dev/null 2>&1
 
-echo " [INFO] Now, go to network settings"
-echo " [INFO]   and import file $FILE"
+info "Now, go to network settings"
+info "  and import file $FILE"

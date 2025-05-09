@@ -3,7 +3,7 @@
 LOG_LEVEL=${LOG_LEVEL:-error}
 
 _ts() {
-  date +": %H:%M:%S :"
+  date +"%H:%M:%S :"
 }
 
 C0=$(echo ":error:warn:info:debug:" | grep ":${LOG_LEVEL}:" | wc -l)
@@ -13,8 +13,8 @@ if [[ "$C0" == "0" ]]; then
   }
 else
   error() {
-    # echo " [ERROR]" $@
-    echo -e " \e[0;34mERROR\e[0m" $(_ts) $@
+    # echo -e " \e[0;34mERROR\e[0m" $(_ts) $@
+    echo -e " \e[0;34m \e[0m" $(_ts) $@
   }
 fi
 
@@ -25,7 +25,8 @@ if [[ "$C1" == "0" ]]; then
   }
 else
   warn() {
-    echo -e "\e[0;33mWARN \e[0m" $(_ts) $@
+    # echo -e "\e[0;33mWARN \e[0m" $(_ts) $@
+    echo -e "\e[0;33m \e[0m" $(_ts) $@
   }
 fi
 
@@ -36,8 +37,8 @@ if [[ "$C2" == "0" ]]; then
   }
 else
   info() {
-    # echo " [INFO ]" $@
-    echo -e " \e[0;36mINFO \e[0m" $(_ts) $@
+    # echo -e " \e[0;36mINFO \e[0m" $(_ts) $@
+    echo -e " \e[0;36m \e[0m" $(_ts) $@
   }
 fi
 
@@ -48,7 +49,7 @@ if [[ "$C3" == "0" ]]; then
   }
 else
   debug() {
-    #echo " [DEBUG]" $@
-    echo -e " \e[1;30mDEBUG\e[0m" $(_ts) $@
+    # echo -e " \e[1;30mDEBUG\e[0m" $(_ts) $@
+    echo -e " \e[1;30m \e[0m" $(_ts) $@
   }
 fi
