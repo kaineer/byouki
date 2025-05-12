@@ -1,0 +1,11 @@
+#!/bin/bash
+
+COUNT=$(ip route ls | grep "10.3.0.0" | wc -l)
+
+if [[ "$COUNT" == "0" ]]; then
+  error "You should connect to itcollege network through vpn"
+  error "Check itcollege/openvpn recipe"
+else
+  info "Found itcollege network"
+  open http://10.3.20.10:8006
+fi

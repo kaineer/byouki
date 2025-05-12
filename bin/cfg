@@ -86,6 +86,6 @@ case "$1" in
   cfg run byouki/sync
   ;;
 "" | "h" | "help")
-  cat $DIR0/cfg.d/usage.md
+  cat $DIRD/usage.md
   ;;
 esac
