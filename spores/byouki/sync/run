@@ -4,8 +4,10 @@ BIN0=$(readlink -f $0)
 DIR0=$(dirname $BIN0)
 DIR="$DIR0/../../.."
 
+TIMESTAMP=$(date +"%H:%M:%S %Y.%m.%d")
+
 cd $DIR
 git add .
-git ci -m "Sync from $HOSTNAME"
+git ci -m "Sync from $HOSTNAME by $USER at $TIMESTAMP"
 git pull origin master
 git push origin master
