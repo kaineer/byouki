@@ -6,6 +6,7 @@
 # DONE: add ls
 # TODO: add fzf select then edit for config actions
 # TODO: move script into dotfiles/.../scripts
+# TODO: add help and documentation, hehe
 
 BIN0=$(readlink -f $0)
 DIR0=$(dirname $BIN0)

@@ -1,0 +1,8 @@
+Install react-sigma packages
+
+Add react-sigma packages to current packag:
+
+ * @react-sigma/core
+ * sigma
+ * graphology
+ * graphology-types
