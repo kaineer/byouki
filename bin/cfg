@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 # DONE: add directory for configuring some tool
 # DONE: add action for specified tool
