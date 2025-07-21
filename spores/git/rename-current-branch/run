@@ -1,0 +1,24 @@
+#!/bin/bash
+
+BIN0=$(readlink -f $0)
+DIR0=$(dirname $BIN0)
+INFO=$DIR0/env.tpl
+
+source $DIR0/../../../bin/fn
+
+main() {
+  T=$(mktemp)
+  cat $INFO >$T
+  nvim $T
+  source $T
+
+  if [[ "$BRANCH_NAME" == "" ]]; then
+    info "You did not specified BRANCH_NAME"
+    warn "Please try again"
+  else
+    git branch -m $BRANCH_NAME
+  fi
+  rm -rf $T
+}
+
+main
