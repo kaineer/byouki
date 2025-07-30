@@ -1,1 +1,1 @@
-npm i --force three @react-three/fiber
+npm i --force three @react-three/fiber @react-three/drei
