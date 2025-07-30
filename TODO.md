@@ -1,9 +1,9 @@
- * TODO: доделать скрипт
- * TODO: наполнить его, хотя бы для deb-линуксов
- * TODO: перенести в dotfiles
- * TODO: (совсем лишнее, наверно) заменить ansible в dotfiles
+ * [ ] доделать скрипт
+ * [ ] наполнить его, хотя бы для deb-линуксов
+ * [ ] перенести в dotfiles
+ * [ ] (совсем лишнее, наверно) заменить ansible в dotfiles
 
- * TODO: run script algorithm
+ * [ ] run script algorithm
    * DETECT: check detect and run it
    * detect script returns 0, exit with 0
    * if there's no detect script run 'run' first time
@@ -13,6 +13,6 @@
    * check script is successful using DETECT
    * if not detected, ask for retry and run again
 
- * TODO: add logging functions
+ * [x] add logging functions
    * error, warn, info, debug
    * LOG_LEVEL env variable
