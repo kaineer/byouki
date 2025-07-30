@@ -66,8 +66,11 @@ case "$1" in
   shift
   add_item $@
   ;;
-"ls")
+"ls0")
   source $DIRD/list_folders
+  ;;
+"ls")
+  source $DIRD/list_folders | sed "s/^/ * /"
   ;;
 "run")
   shift

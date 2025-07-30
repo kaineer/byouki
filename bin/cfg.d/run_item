@@ -32,12 +32,10 @@ _run_selected() {
   fi
 }
 
-LSC="$DIRD/list_folders"
-
 if [[ "$ITEM" == "" ]]; then
-  SELECTED=$(source $LSC | fzf)
+  SELECTED=$(cfg ls0 | fzf)
 else
-  SELECTED=$(source $LSC | fzf -1 -q"$ITEM")
+  SELECTED=$(cfg ls0 | fzf -1 -q"$ITEM")
 fi
 
 _run_selected $SELECTED
