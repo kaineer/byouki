@@ -2,6 +2,8 @@
 
 ITEM=$1
 
+debug "## ITEM=${ITEM}"
+
 _run_detect() {
   DF="$CONFIG_ROOT/$SELECTED/detect"
   if [ -f $DF ]; then
@@ -21,9 +23,9 @@ _run_selected() {
   if [[ "$SELECTED" != "" ]]; then
     SELECTED=$(echo $SELECTED | sed 's/[ ]*::.*$//')
     if _run_detect $SELECTED; then
-      info "## ${SELECTED}"
+      info "## ITEM=${SELECTED}"
       "$CONFIG_ROOT/$SELECTED/run"
-      info "## /${SELECTED}"
+      info "## ITEM/${SELECTED}"
     else
       info "$SELECTED is already installed"
     fi
