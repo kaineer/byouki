@@ -1,0 +1,22 @@
+#!/bin/bash
+
+BIN0=$(readlink -f $0)
+DIR0=$(dirname $BIN0)
+INFO=$DIR0/env.tpl
+
+source $DIR0/../../../bin/fn
+
+main() {
+  T=$(mktemp)
+  cat $INFO > $T
+  nvim $T
+  source $T
+
+  if [[ "$URL" != "" && "$ID" != "" && "$TARGET_DIR" != "" && "$TARGET_FILE" != "" ]]; then
+    download "$URL" && mkdir -p "$TARGET_DIR" && mv ID*.mp3 "$TARGET_DIR/${TARGET_FILE}.mp3"
+  else
+    echo ""
+  fi
+}
+
+main
