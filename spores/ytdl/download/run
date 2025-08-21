@@ -13,9 +13,17 @@ main() {
   source $T
 
   if [[ "$URL" != "" && "$ID" != "" && "$TARGET_DIR" != "" && "$TARGET_FILE" != "" ]]; then
-    download "$URL" && mkdir -p "$TARGET_DIR" && mv ID*.mp3 "$TARGET_DIR/${TARGET_FILE}.mp3"
+    if [ ! -f "$TARGET_FILE" ]; then
+      download "$URL"
+    fi
+    [ ! -d "$TARGET_DIR" ] && mkdir -p "$TARGET_DIR"
+    [ -f "$ID.mp3" ] && mv "$ID.mp3" "$TARGET_DIR/${TARGET_FILE}.mp3"
   else
-    echo ""
+    [[ "$URL" == "" ]] && info "You did not specify url"
+    [[ "$ID" == "" ]] && info "You did not specify ID"
+    [[ "$TARGET_DIR" ]] && info "You did not specify DIR"
+    [[ "$TARGET_FILE" ]] && info "You did not specify FILE"
+    warn "Please try again"
   fi
 }
 

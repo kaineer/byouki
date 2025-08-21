@@ -16,7 +16,7 @@ main() {
     info "You did not fill in PROJECT_NAME"
     warn "Please try again next time"
   else
-    npm create vite@latest $PROJECT_NAME -- --template=$PROJECT_TYPE &&
+    npm create vite@latest $PROJECT_NAME -- --template=$PROJECT_TYPE --yes &&
       cd $PROJECT_NAME && npm i
   fi
   rm -rf $T
