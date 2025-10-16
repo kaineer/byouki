@@ -3,5 +3,6 @@
 FILE=$(zenity --file-selection)
 
 if [[ "$FILE" != "" ]]; then
+  [ ! -d /opt/greeter ] && sudo mkdir -p /opt/greeter
   sudo cp $FILE /opt/greeter/light-bg.jpg
 fi
