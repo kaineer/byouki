@@ -1,0 +1,7 @@
+#/usr/bin/env bash
+
+FILE=$(zenity --file-selection)
+
+if [[ "$FILE" != "" ]]; then
+  sudo cp $FILE /opt/greeter/light-bg.jpg
+fi

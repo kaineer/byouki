@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+GTK_DIR="$HOME/.config/gtk-3.0"
+CINSS_FILE="/usr/share/cinnamon-screensaver/cinnamon-screensaver.css"
+
+[ ! -d $GTK_DIR ] && mkdir -p $GTK_DIR
+
+[[ "$COPY_DEFAULTS" == "true" ]] && cp $CINSS_FILE $GTK_DIR/
+
+if [ ! -f $GTK_DIR/gtk.css ]; then
+  cp $CINSS_FILE $GTK_DIR/gtk.css
+elif [[ "$(cat $GTK_DIR/gtk.css | grep -ve '^$' | wc -l)" == "0" ]]; then
+  cp $CINSS_FILE $GTK_DIR/gtk.css
+fi
+
+[ -f $GTK_DIR/gtk.css ] && vi $GTK_DIR/gtk.css
