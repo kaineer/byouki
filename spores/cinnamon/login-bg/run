@@ -1,8 +1,23 @@
 #/usr/bin/env bash
 
 FILE=$(zenity --file-selection)
+CONFIG_FILE="/etc/lightdm/lightdm-gtk-greeter.conf"
+JPG_TARGET="/opt/greeter/light-bg.jpg"
 
 if [[ "$FILE" != "" ]]; then
   [ ! -d /opt/greeter ] && sudo mkdir -p /opt/greeter
-  sudo cp $FILE /opt/greeter/light-bg.jpg
+  sudo cp $FILE $TARGET
+fi
+
+if [ -f $TARGET ]; then
+  LINE="$(cat $CONFIG_FILE | grep -e ^background=/opt/greeter)"
+  COUNT=$(echo $LINE | grep background | wc -l)
+  if [[ "$COUNT" == "0" ]]; then
+    sudo vi $CONFIG_FILE
+  else
+    echo " [INFO ] ---------------------------------------------------------------"
+    echo " [INFO ]  Found background line in /etc/lightdm/lightdm-gtk-greeter.conf"
+    echo " [INFO ]  >>> $LINE"
+    echo " [INFO ] ---------------------------------------------------------------"
+  fi
 fi
