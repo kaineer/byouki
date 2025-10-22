@@ -1,0 +1,7 @@
+#!/bin/bash
+
+npm install -SE --force \
+  @uiw/react-codemirror \
+  @codemirror/lang-javascript \
+  @codemirror/lang-html \
+  @codemirror/lang-css

@@ -1,0 +1,7 @@
+Install react-codemirror
+
+Also install languages:
+
+ * @codemirror/lang-javascript
+ * @codemirror/lang-html
+ * @codemirror/lang-css
