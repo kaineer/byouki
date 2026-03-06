@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+OS="Debian_12"
+TMP_PKG="/tmp/mega.deb"
+
+download_mega_cli() {
+  if [ ! -f /tmp/mega.deb ]; then
+    wget \
+      https://mega.nz/linux/repo/$OS/amd64/megacmd-Debian_12_amd64.deb \
+      -O "$TMP_PKG"
+  fi
+}
+
+install_deb() {
+  sudo dpkg -i "$TMP_PKG"
+}
+
+main() {
+  if [[ "$(which mega-cli)" == "" ]]; then
+    download_mega_cli
+    install_deb
+  else
+    info "Megacmd is already installed"
+  fi
+}
+
+main
