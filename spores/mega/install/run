@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+BIN0=$(readlink -f $0)
+DIR0=$(dirname $BIN0)
+
+source $DIR0/../../../bin/fn
+
 OS="Debian_12"
 TMP_PKG="/tmp/mega.deb"
 
@@ -16,7 +21,7 @@ install_deb() {
 }
 
 main() {
-  if [[ "$(which mega-cli)" == "" ]]; then
+  if [[ "$(which mega-cmd)" == "" ]]; then
     download_mega_cli
     install_deb
   else
