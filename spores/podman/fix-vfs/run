@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# 1. Остановить все процессы podman
+podman system reset --force 2>/dev/null
+
+# 2. Удалить ВСЕ данные podman для текущего пользователя
+rm -rf ~/.local/share/containers/
+rm -rf /run/user/1000/containers/
+rm -rf ~/.config/containers/
+
+# 3. Пересоздать ТОЛЬКО storage.conf с overlay
+mkdir -p ~/.config/containers
+cat >~/.config/containers/storage.conf <<'EOF'
+[storage]
+driver = "overlay"
+EOF
+
+# 4. Проверить, что драйвер подхватился
+podman info | grep graphDriverName
