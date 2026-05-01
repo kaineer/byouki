@@ -5,9 +5,10 @@
 podman system reset --force 2>/dev/null
 
 # 2. Удалить ВСЕ данные podman для текущего пользователя
-rm -rf ~/.local/share/containers/
-rm -rf /run/user/1000/containers/
-rm -rf ~/.config/containers/
+rm -rf \
+  ~/.local/share/containers/ \
+  /run/user/$(id -u)/containers/ \
+  ~/.config/containers/
 
 # 3. Пересоздать ТОЛЬКО storage.conf с overlay
 mkdir -p ~/.config/containers
