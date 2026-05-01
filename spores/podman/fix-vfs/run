@@ -1,4 +1,5 @@
 #!/bin/bash
+# https://chat.deepseek.com/share/tlrnnnu3qdtzriqyo6
 
 # 1. Остановить все процессы podman
 podman system reset --force 2>/dev/null
