@@ -1,0 +1,2 @@
+sudo rm -f /bin/brave-browser{,-stable}
+ax update
