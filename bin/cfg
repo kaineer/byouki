@@ -83,13 +83,27 @@ case "$1" in
 "title" | "detect" | "dependencies")
   source $DIRD/edit_item_file $@
   ;;
+"lf")
+  cd "$CONFIG_ROOT"
+  lf .
+  ;;
+"l0")
+  cd $DIRD
+  ls -1
+  cd - &>/dev/null
+  ;;
 "e0")
-  $EDITOR $BIN0
+  shift
+  if [[ "$1" == "" ]]; then
+    $EDITOR $BIN0
+  else
+    $EDITOR "$DIRD/$1"
+  fi
   ;;
 "sync")
   cfg run byouki/sync
   ;;
 "" | "h" | "help")
-  cat $DIRD/usage.md
+  cat $DIRD/usage.md | bat -lmd -p
   ;;
 esac

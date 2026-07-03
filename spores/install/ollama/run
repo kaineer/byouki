@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Ensure directory
+mkdir -p "$HOME/ollama"
+
+# Download and install ollama files
+#
+curl -fsSL https://ollama.com/download/ollama-linux-amd64.tar.zst \
+    | tar x --zstd -C "$HOME/ollama"
+

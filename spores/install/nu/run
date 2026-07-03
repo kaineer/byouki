@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cfg run install/rustup
+cargo install nu --locked
