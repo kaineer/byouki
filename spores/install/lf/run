@@ -1,0 +1,8 @@
+#!/bin/bash
+
+URL=https://github.com/gokcehan/lf/releases/download/r41/lf-linux-amd64.tar.gz
+curl -s $URL -o /tmp/lf.tar.gz
+
+if [ -f /tmp/lf.tar.gz ]; then
+  echo "done"
+fi

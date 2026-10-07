@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+cfg run install/rustup
+rustup update
+cargo install yazi

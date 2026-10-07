@@ -9,7 +9,7 @@ source $DIR0/../../../bin/fn
 main() {
   T=$(mktemp)
   cat $INFO >$T
-  nvim $T
+  $EDITOR $T
   source $T
 
   if [[ "$PROJECT_NAME" == "" || "$PROJECT_TYPE" == "" ]]; then
