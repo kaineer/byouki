@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+curl -fsSL https://releases.herdr.dev/app/install.sh | sh
