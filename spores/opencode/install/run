@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+wget https://opencode.ai/files/bin/2.3.2/opencode-desktop-linux-x86_64.AppImage \
+  -O $HOME/bin/appimages/opencode-desktop-linux-x86_64.AppImage
+
+chmod 755 $HOME/bin/appimages/opencode-desktop-linux-x86_64.AppImage
+
+cd $HOME/bin/ && ln -s ./appimages/opencode-desktop-linux-x86_64 opencode
